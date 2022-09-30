@@ -1,6 +1,6 @@
 {
 	"name": "@lucas-labs/coco",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"license": "MIT",
 	"description": "🥥 coco › an interactive cli for creating conventional commits.",
 	"bin": {
