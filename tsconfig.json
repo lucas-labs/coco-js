@@ -1,0 +1,21 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"moduleResolution": "Node",
+		"module": "commonjs",
+		"jsx": "react",
+		"esModuleInterop": true,
+		"resolveJsonModule": true,
+		"strictNullChecks": false,
+		"noImplicitReturns": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"outDir": "bin",
+		"target": "es2016",
+	},
+	"include": [
+		"src", 
+		"src/common/i18n/locales/*.json", 
+	]
+}
+  

@@ -1,0 +1,30 @@
+{
+    "files.exclude": {
+        // 📙 sub-libs
+
+        // ⚙️ config
+        "**/**/tsconfig*": true,
+        ".npmrc": true,
+        "webpack.config.js": true,
+        "**/**/*code-workspace": true,
+        // "**/**/package.json": true,
+
+        // 🧼 linters & styles
+        "**/**/.prettierrc": true,
+        "**/**/.editorconfig": true,
+        "**/**/*.eslintrc.*": true,
+
+        // 📝 readmes
+        // "**/**/README.md": true,
+
+        // 🗑️
+        // "media": true,
+        "node_modules": true,
+        "pnpm-lock.yaml": true,
+        ".prettierignore": true,
+        ".gitignore": true,
+        ".gitattributes": true,
+        ".git": true,
+        ".vscode": true,
+    }
+}
