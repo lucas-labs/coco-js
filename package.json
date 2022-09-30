@@ -1,7 +1,8 @@
 {
-	"name": "co-co",
+	"name": "@lucas-labs/coco",
 	"version": "1.0.0",
 	"license": "MIT",
+	"description": "🥥 coco › an interactive cli for creating conventional commits.",
 	"bin": {
 		"coco": "bin/coco.js"
 	},
@@ -12,7 +13,7 @@
 		"dev": "ts-node --project tsconfig.json src/coco.tsx",
 		"pretest": "npm run build",
 		"test": "xo && ava",
-		"global": "pnpm rimraf bin & tsc & npm uninstall -g co-co & npm i -g ."
+		"global": "pnpm rimraf bin & tsc & npm uninstall -g @lucas-labs/coco & npm i -g ."
 	},
 	"engines": {
 		"node": ">=10"
@@ -23,8 +24,25 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/lucas-labs/concom.git"
+		"url": "https://github.com/lucas-labs/coco.git"
 	},
+	"bugs": {
+		"url" : "https://github.com/lucas-labs/coco/issues",
+		"email" : "lucas@lucaslabs.tech"
+	},
+	"keywords" : [
+		"commit",
+		"commits",
+		"conventional",
+		"cli",
+		"conventional commit",
+		"conventional commits",
+		"node",
+		"ink",
+		"client",
+		"command",
+		"line"
+	],
 	"ava": {
 		"typescript": {
 			"extensions": [
