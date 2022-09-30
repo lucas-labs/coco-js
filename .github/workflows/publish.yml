@@ -1,9 +1,10 @@
 name: "🚀 Publish"
 
 on:
+  workflow_dispatch:
   release:
     types: [released]
-
+  
 jobs:
   publish:
     name: 🚀 publish
