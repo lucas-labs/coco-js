@@ -21,6 +21,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16.3.0
+          registry-url: https://registry.npmjs.org/
 
       # Install Pnpm
       - name: ⬇️ Install Pnpm  
