@@ -9,3 +9,19 @@
 <br/>
 
 <p align="center"><img src="./media/coco-demo.gif" width="100%"></p>
+
+# `coco`
+
+## Installation
+
+```bash
+npm install -g @lucas-labs/coco
+```
+
+## Usage
+
+```bash
+$ coco
+
+# and follow the steps 😊
+```
