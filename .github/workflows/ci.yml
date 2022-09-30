@@ -1,0 +1,20 @@
+# This workflow is the entry point for all CI processes.
+# It is from here that all other workflows are launched.
+name: "🔄 CI"
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - '**.md'
+      - .editorconfig
+      - .gitignore
+
+jobs:
+  release:
+    if: "
+      startsWith(github.event.head_commit.message, 'release:') || 
+      startsWith(github.event.head_commit.message, 'release(')
+    "
+    uses: ./.github/workflows/release.yml
+    secrets: inherit
