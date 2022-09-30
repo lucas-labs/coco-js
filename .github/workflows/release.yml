@@ -1,0 +1,68 @@
+name: "🔖 Release"
+on:
+  workflow_call:
+    secrets:
+      REPO_TOKEN:
+        required: true
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  release:
+    name: "🔖 Release"
+    runs-on: ubuntu-latest
+    outputs:
+      release-note: ${{ steps.release-note.outputs.release-note }}
+      version: ${{ steps.version.outputs.current-version }}
+
+    steps:
+      - name: 📁 Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.3.0
+
+      - name: ⬅️ Get previous git tag
+        id: tag
+        run: echo "::set-output name=last-tag::$(git describe --tags --abbrev=0 || git rev-list --max-parents=0 ${{github.ref}})"
+
+      - name: 🏷️ Get Release Version
+        id: version
+        uses: martinbeentjes/npm-get-version-action@main
+
+      - name: 📑 Generate Changelog
+        uses: nick-fields/private-action-loader@v3
+        id: changelog
+        with:
+          pal-repo-token: ${{ secrets.REPO_TOKEN }}
+          pal-repo-name: lucaslabstech/action-release@v1.0.3
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from: ${{ steps.tag.outputs.last-tag }}
+          to: ${{ github.ref }}
+          next-version: v${{ steps.version.outputs.current-version }}
+
+      - name: 🗑️ Delete outdated drafts
+        uses: hugo19941994/delete-draft-releases@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔖 Create Release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          prerelease: false
+          draft: false
+          tag_name: v${{ steps.version.outputs.current-version }}
+          name: v${{ steps.version.outputs.current-version }}
+          body: ${{ steps.changelog.outputs.changelog }}
