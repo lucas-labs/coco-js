@@ -3,7 +3,7 @@
         // 📙 sub-libs
 
         // ⚙️ config
-        "**/**/tsconfig*": true,
+        // "**/**/tsconfig*": true,
         ".npmrc": true,
         "webpack.config.js": true,
         "**/**/*code-workspace": true,

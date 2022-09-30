@@ -127,7 +127,7 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
         v && setStep(step)
     });
 
-    const compiled = () => `${type}${scope.value ? `(${scope.value})` : ''}: ${summary.value}${body.value ? `\n\n${body.value}` : ''}${footer.value ? `\n\n${footer.value}` : ''}`;
+    const compiled = () => `${type}${scope.value ? `(${scope.value})` : ''}${breaking ? '!' : ''}: ${summary.value}${body.value ? `\n\n${body.value}` : ''}${footer.value ? `\n\n${footer.value}` : ''}`;
 
     const onCommitConfirmed = () => {
         focus(FocusKey.reviewSelector);

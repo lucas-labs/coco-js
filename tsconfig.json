@@ -12,6 +12,7 @@
 		"noUnusedParameters": false,
 		"outDir": "bin",
 		"target": "es2016",
+		"declaration": false
 	},
 	"include": [
 		"src", 
