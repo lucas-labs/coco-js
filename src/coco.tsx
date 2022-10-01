@@ -2,7 +2,7 @@
 
 import { render } from 'ink';
 import React from 'react';
-import { defaultConfig } from './common/config/coco.config';
+import {  getConfig } from './common/config/coco.config';
 import { checkGit } from './common/git/commands/check-git';
 import { listStaged } from './common/git/commands/list-staged';
 import { i18n, LoadDictonary } from './common/i18n/i18n';
@@ -12,7 +12,7 @@ import c from 'chalk';
 run();
 
 async function run() {
-    const config = defaultConfig;
+    const config = getConfig();
 
     await LoadDictonary();
 

@@ -24,6 +24,7 @@ specifiers:
   ts-node: ^10.9.1
   typescript: ^4.8.3
   xo: ^0.39.1
+  yaml: ^2.1.1
 
 dependencies:
   '@lucas-labs/copy-paste': 1.3.2
@@ -36,6 +37,7 @@ dependencies:
   react-dom: 17.0.2_react@17.0.2
   string-width: 4.2.3
   strip-ansi: 6.0.1
+  yaml: 2.1.1
 
 devDependencies:
   '@ava/typescript': 3.0.1
@@ -5153,6 +5155,11 @@ packages:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
     dev: true
+
+  /yaml/2.1.1:
+    resolution: {integrity: sha512-o96x3OPo8GjWeSLF+wOAbrPfhFOGY0W00GNaxCDv+9hkcDJEnev1yh8S7pgHF0ik6zc8sQLuL8hjHjJULZp8bw==}
+    engines: {node: '>= 14'}
+    dev: false
 
   /yargs-parser/20.2.9:
     resolution: {integrity: sha512-y11nGElTIV+CT3Zv9t7VKl+Q3hTQoT9a1Qzezhhl6Rp21gJ/IVTW7Z3y9EWXhuUBC2Shnf+DX0antecpAwSP8w==}
