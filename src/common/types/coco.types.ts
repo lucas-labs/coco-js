@@ -9,7 +9,11 @@ export interface ConventionalCommitType {
 export interface Config {
     types: ConventionalCommitType[];
     useEmoji: boolean;
-    scopes?: string[];
+    scopes: string[];
+    askScope: boolean;
+    askBody: boolean;
+    askFooter: boolean;
+    askBreakingChange: boolean;
 }
 
 /** Represents a string value that can be valid or invalid */
