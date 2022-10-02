@@ -1,12 +1,13 @@
 import { Config, ConventionalCommitType } from '../types/coco.types';
 import { existsSync, readFileSync } from 'fs';
+import { homedir } from 'os';
 import { parse } from 'yaml';
 
 /** Loads user config file if it exists */
-export function loadUserConfig(cwd = process.cwd()) {
+export function loadConfigFile(path: string) {
     const cfgFileNames = ['coco.yaml', 'coco.yml', '.cocorc'];
     const configPath = cfgFileNames
-        .map((name) => `${cwd}/${name}`)
+        .map((name) => `${path}/${name}`)
         .find((name) => existsSync(name));
 
     if (!configPath) return {};
@@ -108,18 +109,26 @@ const defaultConfig: Config = {
     askBreakingChange: true,
 };
 
-export function getConfig(): Config {
-    const userCfg = loadUserConfig();
+export function getConfig(repoPath: string): Config {
+    const homeDir = homedir();
+    let config = mergeConfig(homeDir, defaultConfig);
+    config = mergeConfig(repoPath, config);
 
-    const config = Object.keys(defaultConfig)
+    return config;            
+}
+
+export function mergeConfig(cwd: string, cfg: Config): Config {
+    const userCfg = loadConfigFile(cwd);
+
+    const config = Object.keys(cfg)
         .map((k): keyof Config => k as keyof Config)
         .reduce((acc, key) => {
             const userOverride = userCfg[key];
-            if (userOverride) {
+            if (userOverride !== undefined) {
                 acc[key] = userCfg[key];
             }
             return acc;
-        }, defaultConfig);
+        }, cfg);
 
     return config;
 }
