@@ -7,6 +7,7 @@ import { InputProps } from './types.common';
 
 export const FooterInput: FC<InputProps> = ({
     display = false,
+    focusable = true,
     onSelected,
     focusChanged,
     onValidChange
@@ -14,6 +15,7 @@ export const FooterInput: FC<InputProps> = ({
     const { isFocused } = useFocus({
         autoFocus: false,
         id: FocusKey.footerSelector,
+        isActive: focusable
     });
 
     useEffect(() => {
@@ -31,7 +33,7 @@ export const FooterInput: FC<InputProps> = ({
                 label={`(${i18n('optional')}) ${i18n('alt/shift/ctrl + enter to insert a new line')}`}
                 titleBg='#db279f'
                 focused={isFocused}
-                display={display}
+                display={display && focusable}
                 onSubmit={onSelected}
                 onValidChange={validChanged}
                 validator={/.*/s} 

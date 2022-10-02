@@ -29,10 +29,11 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
     const [,rows] = useStdoutDimensions();
     const [typeDesc, setTypeDesc] = useState<ConventionalCommitType>();
     const [type, setType] = useState<string>();
-    const [scope, setScope] = useState<ValidatedValue>({ value: '', isValid: false});
+    const [scope, setScope] = useState<ValidatedValue>({ value: '', isValid: cfg.askScope ? false : true});
     const [summary, setSummary] = useState<ValidatedValue>({ value: '', isValid: false});
-    const [body, setBody] = useState<ValidatedValue>({ value: '', isValid: false});
-    const [footer, setFooter] = useState<ValidatedValue>({ value: '', isValid: false});
+    const [body, setBody] = 
+    useState<ValidatedValue>({ value: '', isValid: cfg.askBody ? false : true});
+    const [footer, setFooter] = useState<ValidatedValue>({ value: '', isValid: cfg.askFooter ? false : true});
     const [breaking, setBreaking] = useState<boolean>(false);
     const [step, setStep] = useState<FocusKey>(FocusKey.typeSelector);
     const [stage, setStage] = useState<Stage>('type_setup');
@@ -95,32 +96,32 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
 
     const onTypeSelected = (update: string) => {
         setType(update);
-        focus(FocusKey.scopeSelector);
+        focusNext();
     };
 
     const onScopeSelected = (update: ValidatedValue) => {
         setScope({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.summarySelector);
+        focusNext();
     };
 
     const onSummarySelected = (update: ValidatedValue) => {
         setSummary({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.bodySelector);
+        focusNext();
     };
 
     const onBodySelected = (update: ValidatedValue) => {
         setBody({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.footerSelector);
+        focusNext();
     };
 
     const onFooterSelected = (update: ValidatedValue) => {
         setFooter({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.breakingSelector);
+        focusNext();
     };
 
     const onBreakingSelected = (v: boolean) => {
         setBreaking(v);
-        focus(FocusKey.confirmSelector);
+        focusNext();
     };
 
     const onStepFocus = ((v: boolean, step: FocusKey) => {
@@ -173,13 +174,13 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
                 </Box>
                 
                 <Box display={stage === 'scope_setup' ? 'flex' : 'none'} flexDirection='column'>
-                    <ScopeInput   focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}   onSelected={onScopeSelected}   display={type !== undefined} /><Br/>
+                    <ScopeInput   focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}   onSelected={onScopeSelected}   display={type !== undefined} focusable={cfg.askScope} /><Br/>
                 </Box>
 
                 <Box display={stage === 'message_setup' ? 'flex' : 'none'} flexDirection='column'>
                     <SummaryInput focusChanged={(v) => onStepFocus(v, FocusKey.summarySelector)} onSelected={onSummarySelected} display={scope.isValid}/><Br/>
-                    <BodyInput    focusChanged={(v) => onStepFocus(v, FocusKey.bodySelector)}    onSelected={onBodySelected}    display={summary.isValid}/><Br/>
-                    <FooterInput  focusChanged={(v) => onStepFocus(v, FocusKey.footerSelector)}  onSelected={onFooterSelected}  display={body.isValid}/>
+                    <BodyInput    focusChanged={(v) => onStepFocus(v, FocusKey.bodySelector)}    onSelected={onBodySelected}    display={summary.isValid} focusable={cfg.askBody} /><Br/>
+                    <FooterInput  focusChanged={(v) => onStepFocus(v, FocusKey.footerSelector)}  onSelected={onFooterSelected}  display={body.isValid}    focusable={cfg.askFooter} />
                 </Box>
             </Box>
 
