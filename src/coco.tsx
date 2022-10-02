@@ -2,8 +2,8 @@
 
 import { render } from 'ink';
 import React from 'react';
-import {  getConfig } from './common/config/coco.config';
-import { checkGit } from './common/git/commands/check-git';
+import { getConfig } from './common/config/coco.config';
+import { repoPath } from './common/git/commands/repoPath';
 import { listStaged } from './common/git/commands/list-staged';
 import { i18n, LoadDictonary } from './common/i18n/i18n';
 import { CocoApp } from './views/CocoApp';
@@ -12,12 +12,13 @@ import c from 'chalk';
 run();
 
 async function run() {
-    const config = getConfig();
-
+    const currentRepo = await repoPath('.')
     await LoadDictonary();
 
     // check if we are inside a git repo
-    if (await checkGit('.')) {
+    if (currentRepo) {
+        const config = getConfig(currentRepo);
+
         // check repo status
         const staged = await listStaged('.');
 
