@@ -99,8 +99,13 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
         focusNext();
     };
 
-    const onScopeSelected = (update: ValidatedValue) => {
-        setScope({value: sanitize(update.value), isValid: update.isValid});
+    const onScopeSelected = (update: ValidatedValue | string) => {
+        if(typeof update === 'string') {
+            setScope({ value: sanitize(update), isValid: true });
+        } else {
+            setScope({value: sanitize(update.value), isValid: update.isValid});
+        }
+        
         focusNext();
     };
 
@@ -173,9 +178,19 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
                         <Text>{i18n("Creating a <%=type%> commit", {type: c.bold.greenBright(type)})}{scope.value ? ' ' + i18n('on scope <%=scope%>', {scope: c.blue(scope.value)}): ''} {c.dim('|')} {typeDesc?.emoji} {c.dim('>')} {c.dim.italic(i18n(typeDesc?.desc || ''))}</Text>
                     </Box>
                 </Box>
-                
+
                 <Box display={stage === 'scope_setup' ? 'flex' : 'none'} flexDirection='column'>
-                    <ScopeInput   focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}   onSelected={onScopeSelected}   display={type !== undefined} focusable={cfg.askScope} /><Br/>
+                    {
+                        (cfg.scopes && cfg.scopes.length) > 0 ? (
+                            <Box flexDirection='column' justifyContent="center" alignItems='center'>
+                                <Text>{i18n('Select the scope of your commit (use arrows to move around, enter to select)')}</Text><Br/>                                
+                                <Selector onSelected={onScopeSelected} options={cfg.scopes} focusKey={FocusKey.scopeSelector} focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}/>
+                            </Box>
+                        ) : (
+                            <ScopeInput focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}   onSelected={onScopeSelected}   display={type !== undefined} focusable={cfg.askScope} />
+                        )
+                    }
+                    <Br/>
                 </Box>
 
                 <Box display={stage === 'message_setup' ? 'flex' : 'none'} flexDirection='column'>
