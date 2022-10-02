@@ -1,7 +1,7 @@
 import { Box, Text } from 'ink';
 import React, { FC } from 'react';
 
-export interface TypeItemProps {
+export interface ItemProps {
     name?: string;
     isFocused: boolean;
     isSelected: boolean;
@@ -9,7 +9,7 @@ export interface TypeItemProps {
     minWidth?: number;
 }
 
-export const TypeItem: FC<TypeItemProps> = ({
+export const OptionItem: FC<ItemProps> = ({
     name,
     isFocused,
     isSelected,

@@ -2,13 +2,15 @@ import { Box, useFocus } from 'ink';
 import React, { FC, useEffect, useState } from 'react';
 import { useInput } from '../../common/hooks/use-input';
 import { FocusKey } from '../../common/types/focus-keys.types';
-import { TypeItem } from './type-item';
+import { OptionItem } from './item';
 
-export interface TypeSelectorProps {
-    types: string[];
+export interface SelectorProps {
+    options: string[];
+    focusKey: FocusKey;
     onSelected: (type: string) => void;
     focusChanged?: (focused: boolean) => void;
     chunkSize?: number;
+    
 }
 
 function splitArrayIntoChunksOfLen(arr: string[], len: number) {
@@ -21,8 +23,9 @@ function splitArrayIntoChunksOfLen(arr: string[], len: number) {
     return chunks;
 }
 
-export const TypeSelector: FC<TypeSelectorProps> = ({
-    types,
+export const Selector: FC<SelectorProps> = ({
+    options: types,
+    focusKey,
     onSelected,
     focusChanged,
     chunkSize = 5,
@@ -34,7 +37,7 @@ export const TypeSelector: FC<TypeSelectorProps> = ({
 
     const { isFocused } = useFocus({
         autoFocus: true,
-        id: FocusKey.typeSelector,
+        id: focusKey,
     });
 
     useEffect(() => {
@@ -86,7 +89,7 @@ export const TypeSelector: FC<TypeSelectorProps> = ({
                 <Box key={cIndex} flexDirection="row">
                     {chunk.map((type, index) => {
                         return (
-                            <TypeItem
+                            <OptionItem
                                 key={cIndex * chunkSize + index}
                                 isSelected={cIndex * chunkSize + index === selected}
                                 isFocused={cIndex * chunkSize + index === focused}

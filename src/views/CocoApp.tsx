@@ -6,7 +6,7 @@ import { getCommitType } from '../common/config/coco.config';
 import { useInput } from '../common/hooks/use-input';
 import { i18n } from '../common/i18n/i18n';
 import { Config, ConventionalCommitType, ValidatedValue } from '../common/types/coco.types';
-import { TypeSelector } from '../components/commit-types/type-selector';
+import { Selector } from '../components/selector/selector';
 import { BodyInput } from '../components/coco-inputs/body-input';
 import { FooterInput } from '../components/coco-inputs/footer-input';
 import { ScopeInput } from '../components/coco-inputs/scope-input';
@@ -159,9 +159,10 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
             <Box flexDirection="column" display={stage === 'type_setup' ? 'flex' : 'none'} justifyContent="center" alignItems='center'>
                 <Text>{i18n('Select the type of your commit (use arrows to move around, enter to select)')}</Text>
                 <Br/>
-                <TypeSelector 
+                <Selector 
                     onSelected={onTypeSelected} 
-                    types={types}
+                    options={types}
+                    focusKey={FocusKey.typeSelector}
                     focusChanged={(v) => onStepFocus(v, FocusKey.typeSelector)}
                 /><Br/>
             </Box>
