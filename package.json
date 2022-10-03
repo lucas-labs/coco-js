@@ -1,6 +1,6 @@
 {
 	"name": "@lucas-labs/coco",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"license": "MIT",
 	"description": "🥥 coco › an interactive cli for creating conventional commits.",
 	"bin": {
@@ -8,7 +8,7 @@
 	},
 	"author": "Lucas Colombo <lucas@lucaslabs.tech> (https://lucaslabs.tech/)",
 	"scripts": {
-		"coco": "coco",
+		"coco": "node bin/coco.js",
 		"build": "tsc",
 		"dev": "ts-node-dev --project tsconfig.json src/coco.tsx",
 		"pretest": "npm run build",
