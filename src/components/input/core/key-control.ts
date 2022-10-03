@@ -149,6 +149,7 @@ export function handleInput(
         // do nothing
     } else if (e.input) {
         // any other input
+        e.input = e.input?.replace('\r\n', '\n');
         const ansiStripped = stripAnsi(e.input);
         const nextValue = value.slice(0, cursor) + ansiStripped + value.slice(cursor);
 
