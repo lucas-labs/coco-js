@@ -92,15 +92,8 @@ const defaultTypes: ConventionalCommitType[] = [
  */
 const defaultConfig: Config = {
     types: defaultTypes,
-    // TODO: accept a custom array of scopes 
-    // and instead of asking the user to type 
-    // the scope, present the list as it's
-    // now being done with types
     scopes: [],
-
-    // TODO: emoji/gitmoji support
     useEmoji: false,
-
     askScope: true,
     askBody: true,
     askFooter: true,
