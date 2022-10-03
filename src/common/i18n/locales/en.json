@@ -7,6 +7,8 @@
     "footer": "footer",
     "No": "No",
     "Yes": "Yes",
+    "Select the type of your commit (use arrows to move around, enter to select)": "Select the type of your commit (use arrows to move around, enter to select)",
+    "Select the scope of your commit (use arrows to move around, enter to select)": "Select the scope of your commit (use arrows to move around, enter to select)",
     "Creating a <%=type%> commit": "Creating a <%=type%> commit",
     "on scope <%=scope%>": "on scope <%=scope%>",
     "Introduces a new feature": "Introduces a new feature",
@@ -46,5 +48,5 @@
     "Press any key to exit...": "Press any key to exit...",
     "Done! This is your commit": "Done! This is your commit",
     "Oops, something went wrong": "Oops, something went wrong",
-    "committing": "committing"
+    "committing": "committing"  
 }

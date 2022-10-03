@@ -6,7 +6,7 @@ import { getCommitType } from '../common/config/coco.config';
 import { useInput } from '../common/hooks/use-input';
 import { i18n } from '../common/i18n/i18n';
 import { Config, ConventionalCommitType, ValidatedValue } from '../common/types/coco.types';
-import { TypeSelector } from '../components/commit-types/type-selector';
+import { Selector } from '../components/selector/selector';
 import { BodyInput } from '../components/coco-inputs/body-input';
 import { FooterInput } from '../components/coco-inputs/footer-input';
 import { ScopeInput } from '../components/coco-inputs/scope-input';
@@ -29,11 +29,12 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
     const [,rows] = useStdoutDimensions();
     const [typeDesc, setTypeDesc] = useState<ConventionalCommitType>();
     const [type, setType] = useState<string>();
-    const [scope, setScope] = useState<ValidatedValue>({ value: '', isValid: false});
+    const [scope, setScope] = useState<ValidatedValue>({ value: '', isValid: cfg.askScope ? false : true});
     const [summary, setSummary] = useState<ValidatedValue>({ value: '', isValid: false});
-    const [body, setBody] = useState<ValidatedValue>({ value: '', isValid: false});
-    const [footer, setFooter] = useState<ValidatedValue>({ value: '', isValid: false});
+    const [body, setBody] = useState<ValidatedValue>({ value: '', isValid: cfg.askBody ? false : true});
+    const [footer, setFooter] = useState<ValidatedValue>({ value: '', isValid: cfg.askFooter ? false : true});
     const [breaking, setBreaking] = useState<boolean>(false);
+    const [gitmoji, setGitmoji] = useState<string>('');
     const [step, setStep] = useState<FocusKey>(FocusKey.typeSelector);
     const [stage, setStage] = useState<Stage>('type_setup');
     const [prevStage, setPrevStage] = useState<Stage>();
@@ -95,39 +96,44 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
 
     const onTypeSelected = (update: string) => {
         setType(update);
-        focus(FocusKey.scopeSelector);
+        focusNext();
     };
 
-    const onScopeSelected = (update: ValidatedValue) => {
-        setScope({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.summarySelector);
+    const onScopeSelected = (update: ValidatedValue | string) => {
+        if(typeof update === 'string') {
+            setScope({ value: sanitize(update), isValid: true });
+        } else {
+            setScope({value: sanitize(update.value), isValid: update.isValid});
+        }
+        
+        focusNext();
     };
 
     const onSummarySelected = (update: ValidatedValue) => {
         setSummary({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.bodySelector);
+        focusNext();
     };
 
     const onBodySelected = (update: ValidatedValue) => {
         setBody({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.footerSelector);
+        focusNext();
     };
 
     const onFooterSelected = (update: ValidatedValue) => {
         setFooter({value: sanitize(update.value), isValid: update.isValid});
-        focus(FocusKey.breakingSelector);
+        focusNext();
     };
 
     const onBreakingSelected = (v: boolean) => {
         setBreaking(v);
-        focus(FocusKey.confirmSelector);
+        focusNext();
     };
 
     const onStepFocus = ((v: boolean, step: FocusKey) => {
         v && setStep(step)
     });
 
-    const compiled = () => `${type}${scope.value ? `(${scope.value})` : ''}${breaking ? '!' : ''}: ${summary.value}${body.value ? `\n\n${body.value}` : ''}${footer.value ? `\n\n${footer.value}` : ''}`;
+    const compiled = () => `${type}${scope.value ? `(${scope.value})` : ''}${breaking ? '!' : ''}:${cfg.useEmoji ? ` ${typeDesc?.emoji}` : ''} ${summary.value}${body.value ? `\n\n${body.value}` : ''}${footer.value ? `\n\n${footer.value}` : ''}`;
 
     const onCommitConfirmed = () => {
         focus(FocusKey.reviewSelector);
@@ -158,9 +164,10 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
             <Box flexDirection="column" display={stage === 'type_setup' ? 'flex' : 'none'} justifyContent="center" alignItems='center'>
                 <Text>{i18n('Select the type of your commit (use arrows to move around, enter to select)')}</Text>
                 <Br/>
-                <TypeSelector 
+                <Selector 
                     onSelected={onTypeSelected} 
-                    types={types}
+                    options={types}
+                    focusKey={FocusKey.typeSelector}
                     focusChanged={(v) => onStepFocus(v, FocusKey.typeSelector)}
                 /><Br/>
             </Box>
@@ -171,15 +178,25 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
                         <Text>{i18n("Creating a <%=type%> commit", {type: c.bold.greenBright(type)})}{scope.value ? ' ' + i18n('on scope <%=scope%>', {scope: c.blue(scope.value)}): ''} {c.dim('|')} {typeDesc?.emoji} {c.dim('>')} {c.dim.italic(i18n(typeDesc?.desc || ''))}</Text>
                     </Box>
                 </Box>
-                
+
                 <Box display={stage === 'scope_setup' ? 'flex' : 'none'} flexDirection='column'>
-                    <ScopeInput   focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}   onSelected={onScopeSelected}   display={type !== undefined} /><Br/>
+                    {
+                        (cfg.scopes && cfg.scopes.length) > 0 ? (
+                            <Box flexDirection='column' justifyContent="center" alignItems='center'>
+                                <Text>{i18n('Select the scope of your commit (use arrows to move around, enter to select)')}</Text><Br/>                                
+                                <Selector onSelected={onScopeSelected} options={cfg.scopes} focusKey={FocusKey.scopeSelector} focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}/>
+                            </Box>
+                        ) : (
+                            <ScopeInput focusChanged={(v) => onStepFocus(v, FocusKey.scopeSelector)}   onSelected={onScopeSelected}   display={type !== undefined} focusable={cfg.askScope} />
+                        )
+                    }
+                    <Br/>
                 </Box>
 
                 <Box display={stage === 'message_setup' ? 'flex' : 'none'} flexDirection='column'>
                     <SummaryInput focusChanged={(v) => onStepFocus(v, FocusKey.summarySelector)} onSelected={onSummarySelected} display={scope.isValid}/><Br/>
-                    <BodyInput    focusChanged={(v) => onStepFocus(v, FocusKey.bodySelector)}    onSelected={onBodySelected}    display={summary.isValid}/><Br/>
-                    <FooterInput  focusChanged={(v) => onStepFocus(v, FocusKey.footerSelector)}  onSelected={onFooterSelected}  display={body.isValid}/>
+                    <BodyInput    focusChanged={(v) => onStepFocus(v, FocusKey.bodySelector)}    onSelected={onBodySelected}    display={summary.isValid} focusable={cfg.askBody} /><Br/>
+                    <FooterInput  focusChanged={(v) => onStepFocus(v, FocusKey.footerSelector)}  onSelected={onFooterSelected}  display={body.isValid}    focusable={cfg.askFooter} />
                 </Box>
             </Box>
 
@@ -201,6 +218,7 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
                     body={body.value}
                     footer={footer.value}
                     breaking={breaking}
+                    gitmoji={cfg.useEmoji ? typeDesc?.emoji : undefined}
                     onCommitConfirmed={onCommitConfirmed}
                     onCanceled={onCanceled}
                 ></ConfirmCommit>

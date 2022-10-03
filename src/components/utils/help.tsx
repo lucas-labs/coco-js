@@ -1,9 +1,9 @@
 import c from 'chalk';
 import { Box, Text } from 'ink';
 import useStdoutDimensions from 'ink-use-stdout-dimensions';
-import rightPad from 'just-right-pad';
 import React, { FC } from 'react';
 import { i18n } from '../../common/i18n/i18n';
+import { rightPad } from '../../common/utils/pad';
 
 export const Help: FC = () => {
     const [cols] = useStdoutDimensions();

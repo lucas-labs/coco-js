@@ -12,7 +12,7 @@ export function loadConfigFile(path: string) {
 
     if (!configPath) return {};
 
-    return parse(readFileSync(configPath, 'utf8'));
+    return parse(readFileSync(configPath, 'utf8')) || {};
 }
 
 /** default commit types if no types config is provided */
@@ -25,7 +25,7 @@ const defaultTypes: ConventionalCommitType[] = [
     {
         desc: 'Fixes a bug',
         name: 'fix',
-        emoji: '🚑️',
+        emoji: '🚑',
     },
     {
         desc: "Other changes that don't modify src or test files",
@@ -101,8 +101,6 @@ const defaultConfig: Config = {
     // TODO: emoji/gitmoji support
     useEmoji: false,
 
-    // TODO: add support for configuring if scope, 
-    // body, footer and bc steps should be asked
     askScope: true,
     askBody: true,
     askFooter: true,

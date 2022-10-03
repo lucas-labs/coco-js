@@ -7,6 +7,7 @@ import { InputProps } from './types.common';
 
 export const BodyInput: FC<InputProps> = ({
     display = false,
+    focusable = true,
     onSelected,
     focusChanged,
     onValidChange,
@@ -14,6 +15,7 @@ export const BodyInput: FC<InputProps> = ({
     const { isFocused } = useFocus({
         autoFocus: false,
         id: FocusKey.bodySelector,
+        isActive: focusable,
     });
 
     useEffect(() => {
@@ -38,7 +40,7 @@ export const BodyInput: FC<InputProps> = ({
                 )}`}
                 titleBg="#f24e50"
                 focused={isFocused}
-                display={display}
+                display={display && focusable}
                 onSubmit={onSelected}
                 onValidChange={validChanged}
                 validator={/.*/s}

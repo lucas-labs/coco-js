@@ -7,6 +7,8 @@
     "footer": "footer",
     "No": "No",
     "Yes": "Sí",
+    "Select the type of your commit (use arrows to move around, enter to select)": "Selecciona el tipo del commit (usa las flechas para moverte, enter para seleccionar)",
+    "Select the scope of your commit (use arrows to move around, enter to select)": "Selecciona el scope del commit (usa las flechas para moverte, enter para seleccionar)",
     "Creating a <%=type%> commit": "Creando un commit de tipo <%=type%>",
     "on scope <%=scope%>": "en el scope <%=scope%>",
     "Introduces a new feature": "Introduce una nueva característica/feature",
