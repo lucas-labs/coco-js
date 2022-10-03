@@ -1,13 +1,13 @@
 import c from 'chalk';
 import { Box, Text } from 'ink';
 import useStdoutDimensions from 'ink-use-stdout-dimensions';
-import leftPad from 'just-left-pad';
 import type { FC } from 'react';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import stripAnsi from 'strip-ansi';
 import { useInput } from '../../common/hooks/use-input';
 import { ValidatedValue } from '../../common/types/coco.types';
+import { leftPad } from '../../common/utils/pad';
 import { createLines } from './core/display-control';
 import { handleInput } from './core/key-control';
 

@@ -1,6 +1,6 @@
 import c from 'chalk';
-import rightPad from 'just-right-pad';
 import stringWidth from 'string-width';
+import { rightPad } from '../../../common/utils/pad';
 
 export function createLines(
     raw: string,
@@ -22,18 +22,15 @@ export function createLines(
                 const before = line.slice(0, lineWithCursor.position);
                 const after = line.slice(lineWithCursor.position + 1);
                 const newLine = `${before}${c.inverse.dim(line[lineWithCursor.position] || ' ')}${after}`;
-                const realWidth = stringWidth(newLine);
                 
                 return c.bgHex(bg).hex(fg)(
-                    rightPad(margin + newLine, columns + (newLine.length - realWidth))
+                    rightPad(margin + newLine, columns)
                 );
             }
         }
 
-        const realWidth = stringWidth(line);
-
         return c.bgHex(bg).hex(fg)(
-            rightPad(margin + line, columns + (line.length - realWidth))
+            rightPad(margin + line, columns)
         );
     });
 
