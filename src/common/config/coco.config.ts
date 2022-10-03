@@ -25,7 +25,7 @@ const defaultTypes: ConventionalCommitType[] = [
     {
         desc: 'Fixes a bug',
         name: 'fix',
-        emoji: '🚑️',
+        emoji: '🚑',
     },
     {
         desc: "Other changes that don't modify src or test files",

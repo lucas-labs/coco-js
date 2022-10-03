@@ -1,6 +1,9 @@
 import stringWidth from "string-width";
 
+const emojiVariantRegex = /(?:[\uFE0F|\uFE0E])/g;
+
 export function leftPad(str: string, length: number, padStr = ' ') {
+    str = str.replace(emojiVariantRegex, '');
     const strLen = stringWidth(str);
     const padStrLen = padStr.length;
 
@@ -15,6 +18,7 @@ export function leftPad(str: string, length: number, padStr = ' ') {
 }
 
 export function rightPad(str: string, length: number, padStr = ' ') {
+    str = str.replace(emojiVariantRegex, '');
     const strLen = stringWidth(str);
     const padStrLen = padStr.length;
 

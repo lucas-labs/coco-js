@@ -17,6 +17,7 @@ export interface ConfirmProps {
     body?: string;
     footer?: string;
     breaking?: boolean;
+    gitmoji?: string;
     marginX?: number;
     marginY?: number;
     bg?: string;
@@ -32,6 +33,7 @@ export const ConfirmCommit: FC<ConfirmProps> = ({
     summary,
     body,
     footer,
+    gitmoji,
     breaking,
     marginX = 2,
     marginY = 1,
@@ -83,7 +85,7 @@ export const ConfirmCommit: FC<ConfirmProps> = ({
     useEffect(() => {
         const headerMsg = `${c.bold.hex('#8cc265')(type || '')}${
             scope ? `(${c.italic.bold.hex('#125acc')(scope)})` : ''
-        }${breaking ? '!' : ''}: ${c.hex('#6a2eab')(summary || '')}`;
+        }${breaking ? '!' : ''}:${gitmoji ? ` ${gitmoji}` : ''} ${c.hex('#6a2eab')(summary || '')}`;
 
         const bodyMsg: string[] = body
             ? body.split('\n').map((line) => c.hex('#f24e50')(line))
@@ -106,7 +108,7 @@ export const ConfirmCommit: FC<ConfirmProps> = ({
         const yMargins = getLines('\n'.repeat(marginY - 1), maxWidth);
         setMarginLines(yMargins);
         setLines(formatted);
-    }, [type, scope, summary, body, footer, breaking]);
+    }, [type, scope, summary, body, footer, breaking, gitmoji]);
 
     return (
         <Box width="100%" flexDirection="column">

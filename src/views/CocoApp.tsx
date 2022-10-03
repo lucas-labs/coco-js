@@ -31,10 +31,10 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
     const [type, setType] = useState<string>();
     const [scope, setScope] = useState<ValidatedValue>({ value: '', isValid: cfg.askScope ? false : true});
     const [summary, setSummary] = useState<ValidatedValue>({ value: '', isValid: false});
-    const [body, setBody] = 
-    useState<ValidatedValue>({ value: '', isValid: cfg.askBody ? false : true});
+    const [body, setBody] = useState<ValidatedValue>({ value: '', isValid: cfg.askBody ? false : true});
     const [footer, setFooter] = useState<ValidatedValue>({ value: '', isValid: cfg.askFooter ? false : true});
     const [breaking, setBreaking] = useState<boolean>(false);
+    const [gitmoji, setGitmoji] = useState<string>('');
     const [step, setStep] = useState<FocusKey>(FocusKey.typeSelector);
     const [stage, setStage] = useState<Stage>('type_setup');
     const [prevStage, setPrevStage] = useState<Stage>();
@@ -133,7 +133,7 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
         v && setStep(step)
     });
 
-    const compiled = () => `${type}${scope.value ? `(${scope.value})` : ''}${breaking ? '!' : ''}: ${summary.value}${body.value ? `\n\n${body.value}` : ''}${footer.value ? `\n\n${footer.value}` : ''}`;
+    const compiled = () => `${type}${scope.value ? `(${scope.value})` : ''}${breaking ? '!' : ''}:${cfg.useEmoji ? ` ${typeDesc?.emoji}` : ''} ${summary.value}${body.value ? `\n\n${body.value}` : ''}${footer.value ? `\n\n${footer.value}` : ''}`;
 
     const onCommitConfirmed = () => {
         focus(FocusKey.reviewSelector);
@@ -218,6 +218,7 @@ export const CocoApp: FC<CocoAppProps> = ({ cfg }) => {
                     body={body.value}
                     footer={footer.value}
                     breaking={breaking}
+                    gitmoji={cfg.useEmoji ? typeDesc?.emoji : undefined}
                     onCommitConfirmed={onCommitConfirmed}
                     onCanceled={onCanceled}
                 ></ConfirmCommit>
