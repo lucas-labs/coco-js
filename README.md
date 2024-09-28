@@ -1,3 +1,11 @@
+> [!WARNING]  
+> **DEPRECATED**
+> 
+> This package is deprecated as it was ported to **Rust**: http://github.com/lucas-labs/coco
+
+<br/>
+<br/>
+
 <p align="center"><img src="./media/coco.svg" height="40"></p>
 
 <p align="center">
